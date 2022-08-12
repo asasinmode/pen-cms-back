@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors")
 const app = express()
 
+const errorHandler = require("./middleware/errror")
+
 // ROUTERS
 const indexRouter = require("./routes/index")
 const pensRouter = require("./routes/pens")
@@ -21,12 +23,6 @@ app.use("/properties", propertiesRouter)
 app.use("/affectedBy", affectedByRouter)
 
 // ERROR
-app.use((err, req, res, next) => {
-   console.error(err)
-   if(res.headersSent){
-      return next(err)
-   }
-   res.status(500).send("an unknown error has occurred")
-})
+app.use(errorHandler)
 
 module.exports = app
