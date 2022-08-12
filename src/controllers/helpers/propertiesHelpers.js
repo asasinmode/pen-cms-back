@@ -36,7 +36,6 @@ module.exports.validateValues = (added, updated, deleted) => {
 }
 
 module.exports.createValuesArray = (currentValues, added, updated, deleted) => {
-   console.log("updated", updated)
    let rv = currentValues.filter(value => !deleted.includes(value))  // filter out deleted ones
       .filter(value => !Object.keys(updated).includes(value))        // filter out updated ones
 

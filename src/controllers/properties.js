@@ -4,6 +4,7 @@ const PropertyModel = require("../database/models/Property")
 const { filterValues, createValuesArray, validateValues, updateAssociatedPens } = require("./helpers/propertiesHelpers")
 
 const errorPage = path.join(__dirname, '../assets/error.html')
+const sacredProperties = ["brand", "ink color"]
 
 const getProperties = asyncHandler(async (_, res) => {
    const properties = await PropertyModel.find().select({ _id: 0, __v: 0 })
@@ -47,13 +48,12 @@ const getProperty = asyncHandler(async (req, res) => {
 
 const deleteProperty = asyncHandler(async (req, res) => {
    const property = req.params.property
+   console.log("deleting property", property)
 
-   if(["brand", "ink color"].includes(property)){
+   if(sacredProperties.includes(property)){
       res.status(400)
       throw new Error(`property "${ property }" cannot be deleted`)
    }
-
-   console.log("deleting property", property)
 
    const deletionResults = await PropertyModel.findOneAndRemove({ name: property })
    if(!deletionResults){
@@ -89,9 +89,14 @@ const updateProperty = asyncHandler(async (req, res) => {
          res.status(400)
          throw new Error(`property "${ newName }" already exists`)
       }
+      const isChangingSacredProperties = sacredProperties.includes(property)
+      if(isChangingSacredProperties){
+         res.status(400)
+         throw new Error(`this property's name cannot be changed`)
+      }
    }
 
-   const isValuesValid = validateValues(req.body.values.added, req.body.values.updated, req.body.values.deleted)
+   const isValuesValid = validateValues(req.body.values?.added, req.body.values?.updated, req.body.values?.deleted)
    if(!isValuesValid){
       res.status(400)
       throw new Error("invalid values format")
@@ -99,7 +104,7 @@ const updateProperty = asyncHandler(async (req, res) => {
 
    console.log("patching property", property)
 
-   let { added, updated, deleted } = filterValues(currentState.values, req.body.values.added, req.body.values.updated, req.body.values.deleted)
+   let { added, updated, deleted } = filterValues(currentState.values, req.body.values?.added, req.body.values?.updated, req.body.values?.deleted)
 
    const updatedValues = createValuesArray(currentState.values, added, updated, deleted)
    const newState = await PropertyModel.findOneAndUpdate({ name: property }, {
