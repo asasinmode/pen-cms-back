@@ -12,29 +12,27 @@ const getProperties = asyncHandler(async (_, res) => {
 })
 
 const setProperty = asyncHandler(async (req, res) => {
-   const name = req.body.name
-   const values = req.body.values
+   const { name, values } = req.body
 
-   const isNameValid = name && name.length > 0
+   const isNameValid = name && (name.length > 0 && name !== 'new')
    if(!isNameValid){
       res.status(400)
-      throw new Error("name cannot be empty")
+      throw new Error("invalid name")
    }
 
-   const isDuplicateName = await PropertyModel.exists({ name: name })
+   const isDuplicateName =  await PropertyModel.exists({ name: name })
    if(isDuplicateName){
       res.status(400)
       throw new Error(`property "${ name }" already exists`)
    }
 
    console.log("creating new property", name)
-   const property = new PropertyModel({
+   const property = await PropertyModel.create({
       name: name,
       values: values
    })
 
-   const saveResults = await property.save()
-   res.status(201).json(saveResults)
+   res.status(201).json(property)
 })
 
 const getProperty = asyncHandler(async (req, res) => {
@@ -79,10 +77,10 @@ const updateProperty = asyncHandler(async (req, res) => {
    }
 
    if(newName !== undefined){
-      const isNewNameValid = newName.length > 0
+      const isNewNameValid = (newName.length > 0 && newName !== 'new')
       if(!isNewNameValid){
          res.status(400)
-         throw new Error(`name cannot be empty`)
+         throw new Error(`invalid name`)
       }
       const isNewNameTaken = newName !== property && await PropertyModel.exists({ name: newName })
       if(isNewNameTaken){
@@ -96,7 +94,9 @@ const updateProperty = asyncHandler(async (req, res) => {
       }
    }
 
-   const isValuesValid = validateValues(req.body.values?.added, req.body.values?.updated, req.body.values?.deleted)
+   const values = req.body.values || {}
+
+   const isValuesValid = validateValues(values)
    if(!isValuesValid){
       res.status(400)
       throw new Error("invalid values format")
@@ -104,7 +104,7 @@ const updateProperty = asyncHandler(async (req, res) => {
 
    console.log("patching property", property)
 
-   let { added, updated, deleted } = filterValues(currentState.values, req.body.values?.added, req.body.values?.updated, req.body.values?.deleted)
+   let { added, updated, deleted } = filterValues(currentState.values, values)
 
    const updatedValues = createValuesArray(currentState.values, added, updated, deleted)
    const newState = await PropertyModel.findOneAndUpdate({ name: property }, {

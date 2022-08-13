@@ -1,9 +1,12 @@
 module.exports = (err, req, res, next) => {
-   console.error(err)
-   const responseStatus = res.statusCode || 500
+   const responseStatus = res.statusCode !== 200 ? res.statusCode : 500
    res.status(responseStatus)
 
-   const rv = { message: err.message }
+   if(responseStatus === 500){
+      console.error(err)
+   }
+
+   const rv = { message: responseStatus !== 500 ? err.message : 'unknown error has occurred' }
 
    res.json(rv)
 }

@@ -2,12 +2,13 @@ const express = require("express")
 const router = express.Router()
 
 const { getProperties, setProperty, getProperty, deleteProperty, updateProperty } = require("../controllers/properties")
+const { protect } = require("../middleware/auth")
 
 router.route('/').get(getProperties)
-   .post(setProperty)
+   .post(protect, setProperty)
 
 router.route('/:property').get(getProperty)
-   .delete(deleteProperty)
+   .delete(protect, deleteProperty)
    .patch(updateProperty)
 
 module.exports = router

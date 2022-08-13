@@ -1,4 +1,4 @@
-module.exports.filterValues = (currentValues, added, updated, deleted) => {
+module.exports.filterValues = (currentValues, { added, updated, deleted }) => {
    added = added ?
       added.filter(value => !currentValues.includes(value)) // filter already existing
       : []
@@ -27,7 +27,7 @@ module.exports.filterValues = (currentValues, added, updated, deleted) => {
    }
 }
 
-module.exports.validateValues = (added, updated, deleted) => {
+module.exports.validateValues = ({ added, updated, deleted }) => {
    const isAddedValid = added === undefined || Array.isArray(added)
    const isUpdatedValid = updated === undefined || typeof updated === 'object'
    const isDeletedValid = deleted === undefined || Array.isArray(deleted)

@@ -9,6 +9,7 @@ const indexRouter = require("./routes/index")
 const pensRouter = require("./routes/pens")
 const propertiesRouter = require("./routes/properties")
 const affectedByRouter = require("./routes/affectedBy")
+const usersRouter = require("./routes/users")
 
 // MIDDLEWARE
 app.use(express.json())
@@ -21,6 +22,7 @@ app.use("/", indexRouter)
 app.use("/pens", pensRouter)
 app.use("/properties", propertiesRouter)
 app.use("/affectedBy", affectedByRouter)
+app.use("/users", usersRouter)
 
 // ERROR
 app.use(errorHandler)
