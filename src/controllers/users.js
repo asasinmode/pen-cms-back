@@ -34,16 +34,19 @@ const registerUser = asyncHandler(async (req, res) => {
 
    res.status(201).json({
       _id: user._id,
-      name: user.name
+      name: user.name,
+      token: generateToken(user._id)
    })
 })
 
 const deleteUser = asyncHandler(async (req, res) => {
    const { name } = req.params
 
-   if(!name){
-      res.status(400)
-      throw new Error(`name cannot be empty`)
+   const user = await UserModel.findById(req.user._id)
+
+   if(!user || user.name !== name){
+      res.status(403)
+      throw new Error("not authorized")
    }
 
    const deletionResults = await UserModel.findOneAndRemove({ name })

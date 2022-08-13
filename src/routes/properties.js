@@ -9,6 +9,6 @@ router.route('/').get(getProperties)
 
 router.route('/:property').get(getProperty)
    .delete(protect, deleteProperty)
-   .patch(updateProperty)
+   .patch(protect, updateProperty)
 
 module.exports = router
