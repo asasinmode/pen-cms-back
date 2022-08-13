@@ -49,6 +49,8 @@ const deleteUser = asyncHandler(async (req, res) => {
       throw new Error("not authorized")
    }
 
+   console.log("deleting user", user.name)
+
    const deletionResults = await UserModel.findOneAndRemove({ name })
    if(!deletionResults){
       res.status(404)
