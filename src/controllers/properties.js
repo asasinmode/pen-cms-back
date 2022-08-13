@@ -1,17 +1,17 @@
-const path = require("path")
-const asyncHandler = require("express-async-handler")
-const PropertyModel = require("../database/models/Property")
-const { filterValues, createValuesArray, validateValues, updateAssociatedPens } = require("./helpers/propertiesHelpers")
+import { URL } from "url"
+import expressAsyncHandler from "express-async-handler"
+import PropertyModel from "../database/models/Property.js"
+import { filterValues, createValuesArray, validateValues, updateAssociatedPens } from "./helpers/propertiesHelpers.js"
 
-const errorPage = path.join(__dirname, '../assets/error.html')
+const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname).slice(1)
 const sacredProperties = ["brand", "ink color"]
 
-const getProperties = asyncHandler(async (_, res) => {
+const getProperties = expressAsyncHandler(async (_, res) => {
    const properties = await PropertyModel.find().select({ _id: 0, __v: 0 })
    res.json(properties)
 })
 
-const setProperty = asyncHandler(async (req, res) => {
+const createProperty = expressAsyncHandler(async (req, res) => {
    const { name, values } = req.body
 
    const isNameValid = name && (name.length > 0 && name !== 'new')
@@ -35,7 +35,7 @@ const setProperty = asyncHandler(async (req, res) => {
    res.status(201).json(property)
 })
 
-const getProperty = asyncHandler(async (req, res) => {
+const getProperty = expressAsyncHandler(async (req, res) => {
    const property = await PropertyModel.findOne({ name: req.params.property })
    if(!property){
       res.status(404).sendFile(errorPage)
@@ -44,7 +44,7 @@ const getProperty = asyncHandler(async (req, res) => {
    res.json(property)
 })
 
-const deleteProperty = asyncHandler(async (req, res) => {
+const deleteProperty = expressAsyncHandler(async (req, res) => {
    const property = req.params.property
    console.log("deleting property", property)
 
@@ -62,7 +62,7 @@ const deleteProperty = asyncHandler(async (req, res) => {
    res.status(204).end()
 })
 
-const updateProperty = asyncHandler(async (req, res) => {
+const updateProperty = expressAsyncHandler(async (req, res) => {
    const property = req.params.property
    let newName = req.body.newName
 
@@ -123,7 +123,7 @@ const updateProperty = asyncHandler(async (req, res) => {
    res.json(newState)
 })
 
-module.exports = {
+export {
    getProperties,
-   setProperty, getProperty, deleteProperty, updateProperty
+   createProperty, getProperty, deleteProperty, updateProperty
 }

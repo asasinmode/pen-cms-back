@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler")
+import expressAsyncHandler from "express-async-handler"
 
-const getAffectedByDeletion = asyncHandler(async (req, res) => {
+const getAffectedByDeletion = expressAsyncHandler(async (req, res) => {
    const properties = req.query.property
    if(!properties){
       res.status(400).send("query parameter \"property\" is required")
@@ -19,7 +19,7 @@ const getAffectedByDeletion = asyncHandler(async (req, res) => {
    res.json(rv)
 })
 
-const getAffectedByUpdate = asyncHandler((req, res) => {
+const getAffectedByUpdate = expressAsyncHandler((req, res) => {
    const property = req.query.property
    if(!property){
       res.status(400).send("query parameter \"property\" is required")
@@ -48,4 +48,4 @@ const getAffectedByUpdate = asyncHandler((req, res) => {
    res.json(rv)
 })
 
-module.exports = { getAffectedByDeletion, getAffectedByUpdate }
+export { getAffectedByDeletion, getAffectedByUpdate }

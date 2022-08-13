@@ -1,10 +1,9 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
-router.get("/", (_, res) => {
-   console.log("get pens")
-   res.status(200)
-   res.json({test: "test"})
-})
+import { getPens, createPen } from "../controllers/pens.js"
 
-module.exports = router
+router.route("/").get(getPens)
+   .post(createPen)
+
+export default router

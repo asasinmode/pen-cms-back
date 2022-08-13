@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcryptjs")
-const asyncHandler = require("express-async-handler")
-const UserModel = require("../database/models/User")
+import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
+import expressAsyncHandler from "express-async-handler"
+import UserModel from "../database/models/User.js"
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = expressAsyncHandler(async (req, res) => {
    const { name, password } = req.body
 
    if(!name || !password){
@@ -39,7 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
    })
 })
 
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUser = expressAsyncHandler(async (req, res) => {
    const { name } = req.params
 
    const user = await UserModel.findById(req.user._id)
@@ -60,7 +60,7 @@ const deleteUser = asyncHandler(async (req, res) => {
    res.status(204).end()
 })
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = expressAsyncHandler(async (req, res) => {
    const { name, password } = req.body
 
    const user = await UserModel.findOne({ name })
@@ -84,4 +84,4 @@ const generateToken = (id) => {
    })
 }
 
-module.exports = { registerUser, deleteUser, loginUser }
+export { registerUser, deleteUser, loginUser }

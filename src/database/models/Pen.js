@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
 const PenSchema = mongoose.Schema({
    name: {
@@ -10,8 +10,9 @@ const PenSchema = mongoose.Schema({
    properties: {
       type: Object,
       default: {}
-   }
+   },
+   image: String,
 })
 const PenModel = mongoose.model('Pen', PenSchema)
 
-module.exports = PenModel
+export default PenModel

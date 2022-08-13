@@ -1,12 +1,12 @@
-const express = require("express")
-const path = require("path")
+import express from "express"
+import { URL } from 'url'
 const router = express.Router()
 
 router.get("/", (_, res) => {
-   const indexPath = path.join(__dirname, '../assets/index.html')
+   const indexPath = decodeURI(new URL("../assets/index.html", import.meta.url).pathname).slice(1)
 
    res.set("Content-Type", "text/html")
    res.sendFile(indexPath)
 })
 
-module.exports = router
+export default router

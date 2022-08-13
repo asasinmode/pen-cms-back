@@ -1,15 +1,16 @@
-const express = require("express");
-const cors = require("cors")
+import express from "express"
+import cors from "cors"
+
 const app = express()
 
-const errorHandler = require("./middleware/errror")
+import errorHandler from "./middleware/error.js"
 
 // ROUTERS
-const indexRouter = require("./routes/index")
-const pensRouter = require("./routes/pens")
-const propertiesRouter = require("./routes/properties")
-const affectedByRouter = require("./routes/affectedBy")
-const usersRouter = require("./routes/users")
+import indexRouter from "./routes/index.js"
+import pensRouter from "./routes/pens.js"
+import propertiesRouter from "./routes/properties.js"
+import affectedByRouter from "./routes/affectedBy.js"
+import usersRouter from "./routes/users.js"
 
 // MIDDLEWARE
 app.use(express.json())
@@ -27,4 +28,4 @@ app.use("/users", usersRouter)
 // ERROR
 app.use(errorHandler)
 
-module.exports = app
+export default app

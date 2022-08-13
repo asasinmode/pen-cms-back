@@ -1,9 +1,11 @@
-require("dotenv/config")
+import dotenv from "dotenv"
+dotenv.config()
 
-const app = require("./src/app")
+import connect from "./src/database/index.js"
+connect()
+
+import app from "./src/app.js"
 const port = process.env.PORT || 8000
-
-require("./src/database/index")()
 
 app.listen(port, () => {
    console.log("listening on http://localhost:8000/")

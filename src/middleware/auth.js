@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken")
-const asyncHandler = require("express-async-handler")
-const userModel = require("../database/models/User")
+import jwt from "jsonwebtoken"
+import expressAsyncHandler from "express-async-handler"
+import userModel from "../database/models/User.js"
 
-const protect = asyncHandler(async (req, res, next) => {
+const protect = expressAsyncHandler(async (req, res, next) => {
    let token
 
    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
@@ -28,4 +28,4 @@ const protect = asyncHandler(async (req, res, next) => {
    }
 })
 
-module.exports = { protect }
+export { protect }

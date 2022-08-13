@@ -1,10 +1,10 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
-const { getAffectedByDeletion, getAffectedByUpdate } = require("../controllers/affectedBy")
+import { getAffectedByDeletion, getAffectedByUpdate } from "../controllers/affectedBy.js"
 
 router.get("/delete", getAffectedByDeletion)
 
 router.get("/update", getAffectedByUpdate)
 
-module.exports = router
+export default router

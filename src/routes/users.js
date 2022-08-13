@@ -1,8 +1,8 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
 
-const { registerUser, loginUser, deleteUser } = require("../controllers/users")
-const { protect } = require("../middleware/auth")
+import { registerUser, loginUser, deleteUser } from "../controllers/users.js"
+import { protect } from "../middleware/auth.js"
 
 router.post("/", registerUser)
 
@@ -10,4 +10,4 @@ router.post("/login", loginUser)
 
 router.delete("/:name", protect, deleteUser)
 
-module.exports = router
+export default router

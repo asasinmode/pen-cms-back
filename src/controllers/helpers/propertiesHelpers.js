@@ -1,4 +1,4 @@
-module.exports.filterValues = (currentValues, { added, updated, deleted }) => {
+const filterValues = (currentValues, { added, updated, deleted }) => {
    added = added ?
       added.filter(value => !currentValues.includes(value)) // filter already existing
       : []
@@ -27,7 +27,7 @@ module.exports.filterValues = (currentValues, { added, updated, deleted }) => {
    }
 }
 
-module.exports.validateValues = ({ added, updated, deleted }) => {
+const validateValues = ({ added, updated, deleted }) => {
    const isAddedValid = added === undefined || Array.isArray(added)
    const isUpdatedValid = updated === undefined || typeof updated === 'object'
    const isDeletedValid = deleted === undefined || Array.isArray(deleted)
@@ -35,7 +35,7 @@ module.exports.validateValues = ({ added, updated, deleted }) => {
    return isAddedValid && isUpdatedValid && isDeletedValid
 }
 
-module.exports.createValuesArray = (currentValues, added, updated, deleted) => {
+const createValuesArray = (currentValues, added, updated, deleted) => {
    let rv = currentValues.filter(value => !deleted.includes(value))  // filter out deleted ones
       .filter(value => !Object.keys(updated).includes(value))        // filter out updated ones
 
@@ -45,6 +45,8 @@ module.exports.createValuesArray = (currentValues, added, updated, deleted) => {
    return rv.sort()
 }
 
-module.exports.updateAssociatedPens = async (propertyName, updatedValues, deletedValues) => {
+const updateAssociatedPens = async (propertyName, updatedValues, deletedValues) => {
    console.log("updating pens")
 }
+
+export { filterValues, validateValues, createValuesArray, updateAssociatedPens }

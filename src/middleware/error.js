@@ -1,4 +1,4 @@
-module.exports = (err, req, res, next) => {
+export default function (err, req, res, next){
    const responseStatus = res.statusCode !== 200 ? res.statusCode : 500
    res.status(responseStatus)
 
