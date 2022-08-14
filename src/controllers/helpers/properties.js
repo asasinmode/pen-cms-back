@@ -1,3 +1,5 @@
+import PenModel from "../../database/models/Pen.js"
+
 const filterValues = (currentValues, { added, updated, deleted }) => {
    added = added ?
       added.filter(value => !currentValues.includes(value)) // filter already existing
@@ -45,8 +47,39 @@ const createValuesArray = (currentValues, added, updated, deleted) => {
    return rv.sort()
 }
 
-const updateAssociatedPens = async (propertyName, updatedValues, deletedValues) => {
-   console.log("updating pens")
+const deletePropertyFromPens = async (property) => {
+   console.log("deleting property from pens")
+   const propertyPath = `properties.${ property }`
+
+   return PenModel.updateMany({ [propertyPath]: { $exists: true } }, {
+      $unset: { [propertyPath]: 1 }
+   })
 }
 
-export { filterValues, validateValues, createValuesArray, updateAssociatedPens }
+const updateAssociatedPens = (propertyName, updatedValues, deletedValues) => {
+   let rv = []
+   const propertyPath = `properties.${ propertyName }`
+
+   console.log(updatedValues)
+
+   Object.keys(updatedValues).forEach(oldValue => {
+      const newValue = updatedValues[oldValue]
+      rv.push(PenModel.updateMany({
+         [propertyPath]: oldValue
+      }, {
+         [propertyPath]: newValue
+      }))
+   })
+
+   rv.push(deletedValues.map(value => {
+      return PenModel.updateMany({
+         [propertyPath]: value
+      }, {
+         $unset: { [propertyPath]: 1 }
+      })
+   }))
+
+   return Promise.all(rv)
+}
+
+export { filterValues, validateValues, createValuesArray, deletePropertyFromPens, updateAssociatedPens }

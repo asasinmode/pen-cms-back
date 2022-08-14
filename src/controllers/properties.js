@@ -1,7 +1,7 @@
 import { URL } from "url"
 import expressAsyncHandler from "express-async-handler"
 import PropertyModel from "../database/models/Property.js"
-import { filterValues, createValuesArray, validateValues, updateAssociatedPens } from "./helpers/properties.js"
+import { filterValues, createValuesArray, validateValues, updateAssociatedPens, deletePropertyFromPens } from "./helpers/properties.js"
 
 const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname).slice(1)
 const sacredProperties = ["brand", "ink color"]
@@ -59,6 +59,8 @@ const deleteProperty = expressAsyncHandler(async (req, res) => {
       throw new Error("property not found")
    }
 
+   await deletePropertyFromPens(property)
+
    res.status(204).end()
 })
 
@@ -113,7 +115,6 @@ const updateProperty = expressAsyncHandler(async (req, res) => {
    }, { new: true })
 
    if(deleted.length > 0 || Object.keys(updated).length > 0){
-      console.log("updating associated pens")
       await updateAssociatedPens(property, updated, deleted)
    }
 
