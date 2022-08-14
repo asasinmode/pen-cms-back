@@ -1,7 +1,7 @@
 import { URL } from "url"
 import expressAsyncHandler from "express-async-handler"
 import PropertyModel from "../database/models/Property.js"
-import { filterValues, createValuesArray, validateValues, updateAssociatedPens, deletePropertyFromPens } from "./helpers/properties.js"
+import { filterValues, createValuesArray, validateValues, updateAssociatedPens, deletePropertyFromPens, changePropertyName } from "./helpers/properties.js"
 
 const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname).slice(1)
 const sacredProperties = ["brand", "ink color"]
@@ -119,6 +119,7 @@ const updateProperty = expressAsyncHandler(async (req, res) => {
    }
 
    if(newName){
+      await changePropertyName(property, newName)
       res.set("Content-Location", `properties/${ newName }`)
    }
    res.json(newState)

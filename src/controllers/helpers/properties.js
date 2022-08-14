@@ -82,4 +82,13 @@ const updateAssociatedPens = (propertyName, updatedValues, deletedValues) => {
    return Promise.all(rv)
 }
 
-export { filterValues, validateValues, createValuesArray, deletePropertyFromPens, updateAssociatedPens }
+const changePropertyName = (property, newName) => {
+   const propertyPath = `properties.${ property }`
+   const newPath = `properties.${ newName }`
+
+   return PenModel.updateMany({}, {
+      $rename: { [propertyPath]: newPath }
+   })
+}
+
+export { filterValues, validateValues, createValuesArray, deletePropertyFromPens, updateAssociatedPens, changePropertyName }
