@@ -20,7 +20,16 @@
     "nodemon": "^2.0.19"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
+  "license": "MIT",
+  "author": "asasinmode",
+  "version": "1.0.0",
+  "name": "pen-cms-back",
+  "description": "node.js express api for pen-cms"
 }
