@@ -3,7 +3,7 @@ import { URL } from 'url'
 const router = express.Router()
 
 router.get("/", (_, res) => {
-   const indexPath = decodeURI(new URL("../assets/index.html", import.meta.url).pathname).slice(1)
+   const indexPath = decodeURI(new URL("../assets/index.html", import.meta.url).pathname)
 
    res.set("Content-Type", "text/html")
    res.sendFile(indexPath)

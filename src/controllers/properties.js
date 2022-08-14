@@ -3,7 +3,7 @@ import expressAsyncHandler from "express-async-handler"
 import PropertyModel from "../database/models/Property.js"
 import { filterValues, createValuesArray, validateValues, updateAssociatedPens, deletePropertyFromPens, changePropertyName } from "./helpers/properties.js"
 
-const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname).slice(1)
+const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname)
 const sacredProperties = ["brand", "ink color"]
 
 const getProperties = expressAsyncHandler(async (_, res) => {
