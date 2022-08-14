@@ -2,7 +2,7 @@
 
 backend do **pen-cms** stworzony jako **REST API** przy pomocy [Node.js](https://nodejs.org/en/) oraz [Express](https://expressjs.com/)
 
-### link do działającej strony zostanie dodany po ukończeniu projektu
+### działające demo aplikacji można znaleźć [tutaj](https://pen-cms-back.herokuapp.com/)
 
 # instalacja i uruchamianie
 
