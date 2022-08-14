@@ -3,9 +3,7 @@ import mongoose from "mongoose"
 const PenSchema = mongoose.Schema({
    name: {
       type: String,
-      required: true,
-      index: true,
-      unique: true
+      required: true
    },
    properties: {
       type: Object,

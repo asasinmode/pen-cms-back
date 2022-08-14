@@ -1,7 +1,7 @@
 import { URL } from "url"
 import expressAsyncHandler from "express-async-handler"
 import PropertyModel from "../database/models/Property.js"
-import { filterValues, createValuesArray, validateValues, updateAssociatedPens } from "./helpers/propertiesHelpers.js"
+import { filterValues, createValuesArray, validateValues, updateAssociatedPens } from "./helpers/properties.js"
 
 const errorPage = decodeURI(new URL('../assets/error.html', import.meta.url).pathname).slice(1)
 const sacredProperties = ["brand", "ink color"]
