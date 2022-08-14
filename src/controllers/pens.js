@@ -99,7 +99,7 @@ const updatePen = expressAsyncHandler(async (req, res) => {
       throw new Error(isFormDataValid)
    }
 
-   console.log("updating pen")
+   console.log("updating pen", id)
 
    const name = formData.fields.name ? formData.fields.name[0] : undefined
    const properties = formData.fields.properties ? JSON.parse(formData.fields.properties[0]) : undefined

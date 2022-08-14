@@ -6,7 +6,7 @@ const validMimeTypes = ['image/webp', 'image/png', 'image/jpeg']
 const validateFormData = (formdata, canNameBeUndefined = false) => {
    const fields = formdata.fields
 
-   const isNameUndefined = fields.name !== undefined
+   const isNameUndefined = fields.name === undefined
    if(!canNameBeUndefined && isNameUndefined){
       return "field `name` is required"
    }

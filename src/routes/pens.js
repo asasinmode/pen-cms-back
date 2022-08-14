@@ -2,13 +2,13 @@ import express from "express"
 const router = express.Router()
 
 import { getPens, createPen, getPen, deletePen, updatePen } from "../controllers/pens.js"
+import { protect } from "../middleware/auth.js"
 
 router.route("/").get(getPens)
-   .post(createPen)
+   .post(protect, createPen)
 
 router.route("/:id").get(getPen)
-   .delete(deletePen)
+   .delete(protect, deletePen)
    .patch(updatePen)
-
 
 export default router
