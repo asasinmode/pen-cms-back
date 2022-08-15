@@ -15,7 +15,6 @@ const getAffectedByDeletion = expressAsyncHandler(async (req, res) => {
    }
 
    const propertiesArray = properties.split(",")
-   console.log("propertiesArray", propertiesArray)
 
    if(!propertiesArray){
       res.json({})

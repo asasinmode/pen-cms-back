@@ -60,8 +60,6 @@ const updateAssociatedPens = (propertyName, updatedValues, deletedValues) => {
    let rv = []
    const propertyPath = `properties.${ propertyName }`
 
-   console.log(updatedValues)
-
    Object.keys(updatedValues).forEach(oldValue => {
       const newValue = updatedValues[oldValue]
       rv.push(PenModel.updateMany({
