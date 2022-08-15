@@ -48,7 +48,7 @@ const createPen = expressAsyncHandler(async (req, res) => {
 })
 
 const getPen = expressAsyncHandler(async (req, res) => {
-   const pen = await PropertyModel.findOne({ _id: req.params.id })
+   const pen = await PenModel.findOne({ _id: req.params.id })
    if(!pen){
       res.status(404).sendFile(errorPage)
       return
