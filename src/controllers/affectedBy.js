@@ -15,16 +15,23 @@ const getAffectedByDeletion = expressAsyncHandler(async (req, res) => {
    }
 
    const propertiesArray = properties.split(",")
+   console.log("propertiesArray", propertiesArray)
 
-   const rv = propertiesArray ?
-      await propertiesArray.reduce(async (previous, current) => {
-         const propertyPath = `properties.${ current }`
-         return {
-            ...previous,
-            [current]: await affectedByDeletionNumber(propertyPath)
-         }
-      }, {})
-      : {}
+   if(!propertiesArray){
+      res.json({})
+      return
+   }
+
+   const valuePromises = await Promise.all(propertiesArray.map(property => {
+      const propertyPath = `properties.${ property }`
+      return new Promise((resolve, _reject) => {
+         affectedByDeletionNumber(propertyPath).then((value) => resolve({
+            [property]: value
+         }))
+      })
+   }))
+
+   const rv = valuePromises.reduce((result, current) => Object.assign(result, current), {})
 
    res.json(rv)
 })
